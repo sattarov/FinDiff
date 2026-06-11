@@ -128,7 +128,7 @@ class DataTransformer:
         if y is not None:
             self.label_encoder = LabelEncoder()
             # fit on values; LabelEncoder accepts 1d array-like
-            self.label_encoder.fit(y.astype(object).to_numpy())
+            self.label_encoder.fit(y.astype(object).to_numpy().ravel())
             self.label_classes_ = list(self.label_encoder.classes_)
             self.label_cardinality_ = len(self.label_classes_)
 
@@ -174,7 +174,7 @@ class DataTransformer:
         # label (optional) - use LabelEncoder; unseen labels mapped to -1
         if y is not None:
             assert self.label_encoder is not None, "Call fit() with labels before transform() when y is provided"
-            label_vals = y.astype(object).to_numpy()
+            label_vals = y.astype(object).to_numpy().ravel()
             label_encoded = self.label_encoder.transform(label_vals)
             # label_col_out = f"label__{self.label_col}"
             outputs["label"] = label_encoded
